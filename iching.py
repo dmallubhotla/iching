@@ -1,6 +1,7 @@
 import csv
 import textwrap
 import sys
+import random
 
 iching_data_path = "ichingdata.csv"
 
@@ -116,11 +117,37 @@ def get_new_hexagram_string(change):
 	
 def get_hexagram(data, hex_string):
 	return data[hex_string]
-
+	
+def calculate_change():
+	change = []
+	for i in range(6):
+		a = random.randint(0, 1)
+		b = random.randint(0, 1)
+		c = random.randint(0, 1)
+		d = random.randint(0, 1)
+		sum = 0
+		if a == 0 and a == b:
+			sum += 2
+		else:
+			sum += 3
+		if c:
+			sum += 3
+		else:
+			sum += 2
+		if d:
+			sum += 3
+		else:
+			sum += 2
+		print("".join("HT"[x] for x in [a,b,c,d]) + " " + str(sum))
+		change.append(sum)
+		input("Press enter to flip next set of coins")
+	return "".join(str(c) for c in change)
+		
 if __name__=="__main__":
+	data = get_iching_data()
 	if len(sys.argv) < 2:
-		print("No change provided")
+		print("No change provided. Generating")
+		change = Change(data, calculate_change())
 	else:
-		data = get_iching_data()
 		change = Change(data, sys.argv[1])
-		change.pretty_print()
+	change.pretty_print()
