@@ -25,9 +25,9 @@ class Hexagram(object):
 
 def get_drawing(c):
 	if c == "0":
-		return "- -"
+		return "==  =="
 	else:
-		return "---"
+		return "======"
 		
 class Change(object):
 	def __init__(self, data, change):
@@ -86,6 +86,40 @@ Image:
 Judgement:
 {}""".format(self.old.title, self.get_diagram(), self.old.image, self.old.judgement)))
 
+
+CYCLE = "6798"
+def get_next(change):
+	return "".join(CYCLE[(CYCLE.index(n) + 1) % len(CYCLE)] for n in change)
+	
+class Cycle(object):
+	def __init__(self, data, change):
+		self.first = get_hexagram(data, get_old_hexagram_string(change))
+		c2 = get_next(change)
+		self.second = get_hexagram(data, get_old_hexagram_string(c2))
+		c3 = get_next(c2)
+		self.third = get_hexagram(data, get_old_hexagram_string(c3))
+		c4 = get_next(c3)
+		self.fourth = get_hexagram(data, get_old_hexagram_string(c4))
+		c5 = get_next(c4)
+		self.fifth = get_hexagram(data, get_old_hexagram_string(c5))
+		
+	def get_diagram(self):
+		return "\n".join("{}  ->  {}  ->  {}  ->  {}  ->  {}".format(get_drawing(a), get_drawing(b), get_drawing(c), get_drawing(d), get_drawing(e)) for (a,b,c,d,e) in zip(self.first.hexagram[::-1], self.second.hexagram[::-1], self.third.hexagram[::-1], self.fourth.hexagram[::-1], self.fifth.hexagram[::-1]))
+	def pretty_print(self):
+		print(textwrap.dedent("""{}
+moves to
+{}
+moves to 
+{}
+moves to
+{}
+moves to
+{}
+
+{}
+""".format(self.first.title, self.second.title, self.third.title, self.fourth.title, self.fifth.title, self.get_diagram())))
+
+
 		
 		
 def get_iching_data():
@@ -140,7 +174,7 @@ def calculate_change():
 			sum += 2
 		print("".join("HT"[x] for x in [a,b,c,d]) + " " + str(sum))
 		change.append(sum)
-		input("Press enter to flip next set of coins")
+		#input("Press enter to flip next set of coins")
 	return "".join(str(c) for c in change)
 		
 if __name__=="__main__":
