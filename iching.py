@@ -29,6 +29,12 @@ def get_drawing(c):
 	else:
 		return "======"
 		
+def get_arrow(c):
+	if c in "69":
+		return "->"
+	else:
+		return "  "
+
 class Change(object):
 	def __init__(self, data, change):
 		self.old = get_hexagram(data, get_old_hexagram_string(change))
@@ -36,6 +42,7 @@ class Change(object):
 		
 		self.changes = []
 		cs = "96"
+		self.change = change
 		if change[0] in cs:
 			self.changes.append(self.old.first_change)
 		if change[1] in cs:
@@ -50,7 +57,7 @@ class Change(object):
 			self.changes.append(self.old.sixth_change)
 	def get_diagram(self):
 		if len(self.changes):
-			return "\n".join("   {}  ->  {}".format(get_drawing(o), get_drawing(n)) for (o,n) in zip(self.old.hexagram[::-1], self.new.hexagram[::-1]))
+			return "\n".join("   {}  {}  {}".format(get_drawing(o), get_arrow(c), get_drawing(n)) for (o,n,c) in zip(self.old.hexagram[::-1], self.new.hexagram[::-1], self.change[::-1]))
 		else:
 			return "\n".join("   {}".format(get_drawing(l)) for l in self.old.hexagram[::-1])
 	def pretty_print(self):
