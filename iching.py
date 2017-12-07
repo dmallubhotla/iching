@@ -52,7 +52,7 @@ class Change(object):
 		if len(self.changes):
 			return "\n".join("   {}  ->  {}".format(get_drawing(o), get_drawing(n)) for (o,n) in zip(self.old.hexagram[::-1], self.new.hexagram[::-1]))
 		else:
-			return "\n".join("   {}".format(get_drawing(l)) for l in self.old.hexagram)
+			return "\n".join("   {}".format(get_drawing(l)) for l in self.old.hexagram[::-1])
 	def pretty_print(self):
 		if len(self.changes):
 			print(textwrap.dedent("""{}
