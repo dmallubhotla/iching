@@ -2,8 +2,9 @@ import csv
 import textwrap
 import sys
 import random
+import pkg_resources
 
-iching_data_path = "ichingdata.csv"
+iching_data_path = pkg_resources.resource_filename("simple_iching", "ichingdata.csv")
 
 def deesc(s):
 	return bytes(s, "utf-8").decode("unicode_escape")
@@ -184,7 +185,7 @@ def calculate_change():
 		#input("Press enter to flip next set of coins")
 	return "".join(str(c) for c in change)
 		
-if __name__=="__main__":
+def main():
 	data = get_iching_data()
 	if len(sys.argv) < 2:
 		print("No change provided. Generating")
@@ -192,3 +193,6 @@ if __name__=="__main__":
 	else:
 		change = Change(data, sys.argv[1])
 	change.pretty_print()
+	
+if __name__=="__main__":
+	main()
