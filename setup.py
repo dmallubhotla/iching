@@ -5,7 +5,7 @@ setup(
 	packages=['simple_iching'],
 	version="0.1.0",
 	description="A simple I Ching package",
-	url="https://github.com/dmallubhotla/iching",
+	url="https://github.com/dmallubhotla/simple_iching",
 	package_data={
 		"simple_iching": ["*.csv"],
 	},
