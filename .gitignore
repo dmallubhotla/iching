@@ -1,2 +1,4 @@
 results/*
 __pycache__/*
+dist/
+simple_iching.egg-info/
